@@ -2,29 +2,40 @@ package com.example.eddyyao.arsoapstone;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.ux.ArFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FusedLocationProviderClient mFusedLocationClient;
-    protected ARFragment arFragment;
+    protected ArFragment arFragment;
+    protected ModelRenderable andyRenderable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        arFragment = new ARFragment();
+        arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ar);
+
+        ModelRenderable.builder()
+                .setSource(this, R.raw.andy)
+                .build()
+                .thenAccept(renderable -> andyRenderable = renderable)
+                .exceptionally(
+                        throwable -> {
+                            Toast toast =
+                                    Toast.makeText(this, "Unable to load andy renderable", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                            return null;
+                        });
     }
 
     protected boolean getCameraPerms(){
