@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eddyyao.arsoapstone">
     <uses-feature android:name="android.hardware.camera.ar" android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -15,7 +16,9 @@
 
         <meta-data android:name="com.google.ar.core" android:value="required" />
 
-        <activity android:name=".BufferingActivity">
+        <activity
+            android:name=".BufferingActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,6 +31,9 @@
         <activity
             android:name=".LoginActivity"
             android:noHistory="true">
+        </activity>
+        <activity
+            android:name=".MainActivity">
         </activity>
     </application>
 
