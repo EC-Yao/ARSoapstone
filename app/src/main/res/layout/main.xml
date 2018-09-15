@@ -6,6 +6,6 @@
     <fragment
         android:id="@+id/ar"
         android:name="com.example.eddyyao.arsoapstone.ARFragment"
-        android:layout_width="383dp"
-        android:layout_height="569dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
