@@ -1,6 +1,7 @@
 package com.example.eddyyao.arsoapstone;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -47,6 +48,8 @@ public class LoginActivity extends AppCompatActivity{
     protected void onResume(){
         super.onResume();
         getLocation();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     private void initLocation(){
@@ -72,6 +75,15 @@ public class LoginActivity extends AppCompatActivity{
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        Log.wtf("Location", "GetLocation()");
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        Log.wtf("Location", "Successful");
+                        if (location != null) {
+                            Log.wtf("Location", location.toString());
+                        }
+                    }
+                });
     }
 }

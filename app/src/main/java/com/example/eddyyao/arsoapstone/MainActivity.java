@@ -17,37 +17,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient mFusedLocationClient;
+    protected ARFragment arFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initLocation();
-        getLocation();
-    }
+        setContentView(R.layout.main);
 
-    private void initLocation() {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            Log.wtf("Location", location.toString());
-                        }
-                    }
-                });
-    }
-
-    private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mFusedLocationClient.getLastLocation();
+        arFragment = new ARFragment();
     }
 
     protected boolean getCameraPerms(){
