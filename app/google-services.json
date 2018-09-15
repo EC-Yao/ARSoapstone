@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "974855255982",
+    "firebase_url": "https://soapstone-216506.firebaseio.com",
+    "project_id": "soapstone-216506",
+    "storage_bucket": "soapstone-216506.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974855255982:android:532a8eb7bf313ad2",
+        "android_client_info": {
+          "package_name": "com.example.eddyyao.arsoapstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974855255982-m0d1gp4o3khcee9fdjogdea099ai0fnn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eddyyao.arsoapstone",
+            "certificate_hash": "884122689db36d203a659c943fbbe52db7e13aae"
+          }
+        },
+        {
+          "client_id": "974855255982-9cjk3vu4p0nl03c3adp038f9bb6vsdu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtCWHWmFMwOKvIKNfW0vk2peRNbAxw5ls"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974855255982-9cjk3vu4p0nl03c3adp038f9bb6vsdu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
