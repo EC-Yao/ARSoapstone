@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="com.google.ar.core" android:value="required" />
+        <meta-data
+            android:name="com.google.android.ar.API_KEY"
+            android:value="AIzaSyB7QYgT4UJtUNtRD_Ec8fZay2gKzefznns"/>
 
         <activity
             android:name=".BufferingActivity"
