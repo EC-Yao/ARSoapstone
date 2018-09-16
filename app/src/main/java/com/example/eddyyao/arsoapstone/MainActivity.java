@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     LocationNode andy = new LocationNode(arFragment.getTransformationSystem(), "Lorum ipsum");
                     andy.setParent(anchorNode);
                     andy.setRenderable(andyRenderable);
+                    andy.select();
                 });
     }
 
