@@ -1,7 +1,6 @@
 package com.example.eddyyao.arsoapstone;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.google.ar.sceneform.ux.TransformationSystem;
@@ -21,6 +20,7 @@ public class LocationNode extends TransformableNode {
                 .setNegativeButton("Close", (dialog, id) -> {
                 });
         builder.create();
+        //builder.show();
         super.select();
         return false;
     }
