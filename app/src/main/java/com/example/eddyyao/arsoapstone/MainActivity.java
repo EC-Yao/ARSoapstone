@@ -19,10 +19,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
+import com.google.ar.core.Camera;
 import com.google.ar.core.Config;
+import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.core.Session;
+import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private Session session;
     private Anchor anchor;
+    private Frame frame;
 
     private final Object singleTapAnchorLock = new Object();
 
@@ -58,8 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 Config config = new Config(session);
                 config.setCloudAnchorMode(Config.CloudAnchorMode.ENABLED);
                 session.configure(config);
-                session.resume();
-            } catch (Exception e){ }
+            } catch (Exception e){
+                Log.wtf("Cloud", "This really ain't it chief");
+            }
+        }
+
+
+        try{
+            session.resume();
+        } catch (Exception e){
         }
 
         ModelRenderable.builder()
@@ -81,11 +92,21 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
+                    Log.wtf("Main", "Loading Anchor");
+
                     // Create the Anchor.
-                    //Anchor newAnchor = session.hostCloudAnchor(hitResult.createAnchor());
-                    Anchor newAnchor = session.hostCloudAnchor(hitResult.createAnchor());
-                    setNewAnchor(newAnchor);
+                    try {
+                        frame = session.update();
+                    } catch (Exception e){
+                        Log.wtf("Cloud", "RIP Frames");
+                    }
+
+                    Camera camera = frame.getCamera();
+                    TrackingState cameraTrackingState = camera.getTrackingState();
+                    handleTapOnDraw(cameraTrackingState, hitResult);
+
                     appAnchorState = AppAnchorState.HOSTING;
+                    checkUpdatedAnchor();
 
                     AnchorNode anchorNode = new AnchorNode(anchor);
                     anchorNode.setParent(arFragment.getArSceneView().getScene());
@@ -107,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                     builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
                     builder.show();
-                    checkUpdatedAnchor();
                 });
     }
 
@@ -148,16 +168,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUpdatedAnchor() {
-        synchronized (singleTapAnchorLock) {
-            if (appAnchorState != AppAnchorState.HOSTING) {
-                return;
-            }
-            Anchor.CloudAnchorState cloudState = anchor.getCloudAnchorState();
-            if (cloudState.isError()) {
-                appAnchorState = AppAnchorState.NONE;
-            } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
-                Log.wtf("Cloud Anchor", "Anchor hosted successfully! Cloud ID: " + anchor.getCloudAnchorId());
+        try{
+            Log.wtf("Cloud Anchor", "Anchor hosted successfully! Cloud ID: " + anchor.getCloudAnchorId());
                 appAnchorState = AppAnchorState.HOSTED;
+        } catch (Exception e) {
+            Log.wtf("Cloud Anchor", "This ain't it #2");
+        }
+    }
+
+    private void handleTapOnDraw(TrackingState currentTrackingState, HitResult hitResult) {
+        synchronized (singleTapAnchorLock) {
+            if (anchor == null
+                    && currentTrackingState == TrackingState.TRACKING) {
+                        Anchor newAnchor = session.hostCloudAnchor(hitResult.createAnchor());
+                        setNewAnchor(newAnchor);
             }
         }
     }
